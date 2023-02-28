@@ -18,8 +18,6 @@ public class Main {
 			arr[i] = Integer.parseInt(st.nextToken());
 		}
 		
-		Arrays.sort(arr);
-		
 		int inputArr[] = new int[Integer.parseInt(br.readLine())];
 		st = new StringTokenizer(br.readLine());
 		
@@ -27,24 +25,17 @@ public class Main {
 			inputArr[i] = Integer.parseInt(st.nextToken());
 		}
 		
+		Arrays.sort(arr);
+		
 		for (int i = 0; i < inputArr.length; i++) {
-			int result = binarySearch(arr, 0, arr.length-1, inputArr[i]);
-			if (result == -1) {
-				System.out.println(0);
-			} else {
+			int result = Arrays.binarySearch(arr, inputArr[i]);
+			if (result>= 0) {
 				System.out.println(1);
+			} else {
+				System.out.println(0);
 			}
 		}
 		
-	}
-	
-	public static int binarySearch(int[] arr, int start, int end, int key) {
-		if (start > end) return -1;
-		int mid = (start + end) / 2;
-		
-		if (arr[mid] == key) return mid;
-		else if (arr[mid] > key) return binarySearch(arr, start, mid-1, key);
-		else return binarySearch(arr, mid+1, end, key);
 	}
 
 }
