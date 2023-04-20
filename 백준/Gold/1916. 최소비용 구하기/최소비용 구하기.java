@@ -1,94 +1,94 @@
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.PriorityQueue;
 import java.util.StringTokenizer;
- 
-class Node implements Comparable<Node> {
-    int end;
-    int weight;
- 
-    Node(int end, int weight) {
-        this.end = end;
-        this.weight = weight;
-    }
- 
-    @Override
-    public int compareTo(Node o) {
-        return weight - o.weight;
-    }
- 
-}
- 
+
 public class Main {
-    static int N, M;
-    static ArrayList<ArrayList<Node>> a; // 인접리스트.
-    static int[] dist; // 시작점에서 각 정점으로 가는 최단거리.
-    static boolean[] check; // 방문 확인.
- 
-    public static void main(String[] args) throws Exception {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
-        StringTokenizer st;
-        N = Integer.parseInt(br.readLine());
-        M = Integer.parseInt(br.readLine());
- 
-        a = new ArrayList<>();
-        dist = new int[N + 1];
-        check = new boolean[N + 1];
- 
-        Arrays.fill(dist, Integer.MAX_VALUE);
- 
-        for (int i = 0; i <= N; i++) {
-            a.add(new ArrayList<>());
-        }
- 
-        // 단방향 인접 리스트 구현.
-        for (int i = 0; i < M; i++) {
-            st = new StringTokenizer(br.readLine());
-            int start = Integer.parseInt(st.nextToken());
-            int end = Integer.parseInt(st.nextToken());
-            int weight = Integer.parseInt(st.nextToken());
- 
-            // start에서 end로 가는 weight (가중치)
-            a.get(start).add(new Node(end, weight));
-        }
- 
-        st = new StringTokenizer(br.readLine());
-        int startPos = Integer.parseInt(st.nextToken());
-        int endPos = Integer.parseInt(st.nextToken());
- 
-        bw.write(dijkstra(startPos, endPos) + "\n");
-        bw.flush();
-        bw.close();
-        br.close();
-    }
- 
-    // 다익스트라 알고리즘
-    public static int dijkstra(int start, int end) {
-        PriorityQueue<Node> pq = new PriorityQueue<>();
-        boolean[] check = new boolean[N + 1];
-        pq.offer(new Node(start, 0));
-        dist[start] = 0;
- 
-        while (!pq.isEmpty()) {
-            Node curNode = pq.poll();
-            int cur = curNode.end;
- 
-            if (!check[cur]) {
-                check[cur] = true;
- 
-                for (Node node : a.get(cur)) {
-                    if (!check[node.end] && dist[node.end] > dist[cur] + node.weight) {
-                        dist[node.end] = dist[cur] + node.weight;
-                        pq.add(new Node(node.end, dist[node.end]));
-                    }
-                }
-            }
-        }
-        return dist[end];
-    }
+
+	static class Node {
+		int v;
+		int cost;
+
+		public Node(int v, int cost) {
+			this.v = v;
+			this.cost = cost;
+		}
+	}
+
+	static ArrayList<Node> graph[];
+	static boolean visit[];
+	static int dist[];
+
+	public static void main(String[] args) throws IOException {
+
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+
+		StringTokenizer st = new StringTokenizer(br.readLine());
+		int n = Integer.parseInt(st.nextToken());
+
+		st = new StringTokenizer(br.readLine());
+		int m = Integer.parseInt(st.nextToken());
+
+		graph = new ArrayList[n+1];
+		dist = new int[n+1];
+		visit = new boolean[n+1];
+
+		for (int i = 1; i <= n; i++) {
+			graph[i] = new ArrayList<>();
+			dist[i] = Integer.MAX_VALUE;
+		}
+
+		for (int i = 0; i < m; i++) {
+			st = new StringTokenizer(br.readLine());
+			int a = Integer.parseInt(st.nextToken());
+			int b = Integer.parseInt(st.nextToken());
+			int c = Integer.parseInt(st.nextToken());
+
+			graph[a].add(new Node(b, c));
+		}
+
+		st = new StringTokenizer(br.readLine());
+		int start = Integer.parseInt(st.nextToken());
+		int end = Integer.parseInt(st.nextToken());
+
+		bw.write(dijkstra(start, end) + "\n");
+		bw.flush();
+		bw.close();
+		br.close();
+
+	}
+
+	static int dijkstra(int start, int end) {
+
+		PriorityQueue<Node> q = new PriorityQueue<>((o1, o2) -> o1.cost - o2.cost);
+
+		q.offer(new Node(start, 0));
+		dist[start] = 0;
+
+		while(!q.isEmpty()) {
+
+			Node now = q.poll();
+
+			if (!visit[now.v]) {
+				visit[now.v] = true;
+
+				for (Node next : graph[now.v]) {
+
+					//방문하지 않았고, 현재 노드를 거쳐서 다른 노드로 이동하는 거리가 더 짧을 경우
+					if (!visit[next.v] && dist[next.v] > dist[now.v] + next.cost) {
+						dist[next.v] = dist[now.v] + next.cost;
+						q.offer(new Node(next.v, dist[next.v]));
+					}
+				}
+			}
+		}
+
+		return dist[end];
+	}
+
 }
