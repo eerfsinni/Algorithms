@@ -1,37 +1,36 @@
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.Queue;
-import java.util.StringTokenizer;
+import java.util.*;
+import java.io.*;
 
 public class Main {
 
-	static class Node {
-		int v;
-		int cost;
-
+	static int n;	// 노드 수
+	static int m;	// 간선 수
+	static int k;	// 거리 정보
+	static int x;	// 출발 도시 번호
+	static ArrayList<Node> graph[]; // 도시 관계
+	static int dist[]; // 거리 담을 배열
+	static boolean visit[]; // 방문여부
+	
+	static class Node{
+		int v;		// 정점
+		int cost;	// 거리
+		
 		public Node(int v, int cost) {
 			this.v = v;
 			this.cost = cost;
 		}
 	}
-
-	static ArrayList<Node> graph[];
-	static boolean[] visit;
-	static int dist[];
-
+	
 	public static void main(String[] args) throws IOException {
-
+		
 		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
 		StringTokenizer st = new StringTokenizer(br.readLine());
-
-		int n = Integer.parseInt(st.nextToken());
-		int m = Integer.parseInt(st.nextToken());
-		int k = Integer.parseInt(st.nextToken());
-		int x = Integer.parseInt(st.nextToken());
 		
+		n = Integer.parseInt(st.nextToken());
+		m = Integer.parseInt(st.nextToken());
+		k = Integer.parseInt(st.nextToken());
+		x = Integer.parseInt(st.nextToken());
+	
 		graph = new ArrayList[n+1];
 		dist = new int[n+1];
 		visit = new boolean[n+1];
@@ -51,7 +50,7 @@ public class Main {
 		
 		dijkstra(x);
 		
-		int count = 0;
+		int count=0;
 		for (int i = 1; i < dist.length; i++) {
 			if(dist[i]==k) {
 				count++;
@@ -59,13 +58,13 @@ public class Main {
 			}
 		}
 		
-		if (count==0) {
+		if(count==0) {
 			System.out.println(-1);
 		}
-
 	}
 	
 	static void dijkstra(int start) {
+		
 		Queue<Node> q = new LinkedList<>();
 		
 		q.add(new Node(start, 0));
@@ -73,21 +72,23 @@ public class Main {
 		
 		while(!q.isEmpty()) {
 			
-			Node now = q.poll();
+			Node cur = q.poll();
 			
-			if (!visit[now.v]) {
-                visit[now.v] = true;
-            }
+			// 아직 방문 안했으면 방문 처리
+			if(!visit[cur.v]) {
+				visit[cur.v] = true;
+			}
 			
-			for (Node next : graph[now.v]) {
+			// 다음 노드들 순회
+			for (Node next : graph[cur.v]) {
 
                 //방문하지 않았고, 현재 노드를 거쳐서 다른 노드로 이동하는 거리가 더 짧을 경우
-                if (!visit[next.v] && dist[next.v] > now.cost + next.cost) {
-                    dist[next.v] = now.cost + next.cost;
+                if (!visit[next.v] && dist[next.v] > cur.cost + next.cost) {
+                    dist[next.v] = cur.cost + next.cost;
                     q.add(new Node(next.v, dist[next.v]));
                 }
-            }
+			
+			}
 		}
 	}
-
 }
