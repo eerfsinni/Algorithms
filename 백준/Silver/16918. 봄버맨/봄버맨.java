@@ -84,14 +84,16 @@ public class Main {
 		for (int i = 0; i < r; i++) {
 			for (int j = 0; j < c; j++) {
 				if(field[i][j]>0) {
-					System.out.print("O");
+					bw.write("O");
 				} else {
-					System.out.print(".");
+					bw.write(".");
 				}
 			}
-			System.out.println();
+			bw.write("\n");
 		}
 
+		bw.flush();
+		bw.close();
 	}
 
 }
