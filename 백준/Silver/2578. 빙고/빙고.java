@@ -82,7 +82,9 @@ public class Main {
 			}
 			if(sumDaeLD==0) bingoCount++;
 			
+			// 빙고가 3개 이상이면 종료
 			if (bingoCount>=3) break;
+			
 			answer++;
 		}
 
