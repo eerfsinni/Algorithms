@@ -1,2 +1,3 @@
-# BOJ
-This is a auto push repository for Baekjoon Online Judge created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
+# Algorithms
+This is a auto push repository for Alogrithm Problem Solved.
+Created with [BaekjoonHub](https://github.com/BaekjoonHub/BaekjoonHub).
