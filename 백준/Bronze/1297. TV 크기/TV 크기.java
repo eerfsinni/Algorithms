@@ -16,6 +16,6 @@ public class Main {
         double sum = Math.pow(d, 2) / (Math.pow(h, 2) + Math.pow(w, 2));
         double sqrt = Math.sqrt(sum);
 
-        System.out.println((int) (sqrt * h) + " " + (int) (sqrt * w));
+        System.out.printf("%d %d", (int) (sqrt * h), (int) (sqrt * w));
     }
 }
