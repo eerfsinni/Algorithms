@@ -10,11 +10,10 @@ class Solution {
             letter[i] = s.charAt(i);
         }
         
-        Integer[] reverseLetter = Arrays.stream(letter).boxed().toArray(Integer[]::new);
-        Arrays.sort(reverseLetter, Collections.reverseOrder());
+        Arrays.sort(letter);
         
-        for (int i=0; i<letter.length; i++) {
-            sb.append((char) (int) reverseLetter[i]);
+        for (int i=letter.length-1; i>=0; i--) {
+            sb.append((char) letter[i]);
         }
         
         answer = sb.toString();
