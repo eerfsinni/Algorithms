@@ -7,15 +7,13 @@ public class Main {
 
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         int target = Integer.parseInt(br.readLine());
-        factorial(target, 1);
+        System.out.println(factorial(target));
     }
 
-    static void factorial(int number, long result) {
+    static long factorial(int number) {
         if (number == 0) {
-            System.out.println(result);
-            return;
+            return 1;
         }
-        result *= number;
-        factorial(number-1, result);
+        return number * factorial(number - 1);
     }
 }
