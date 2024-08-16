@@ -15,15 +15,14 @@ public class Main {
 
         int m = Integer.parseInt(st.nextToken());
         int n = Integer.parseInt(st.nextToken());
-
         int[][] board = new int[m][n];
         int[][] result = new int[m][n];
         boolean[][] visited = new boolean[m][n];
         int[] startIdx = new int[2];
 
-        for (int i=0; i<m; i++) {
+        for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
-            for (int j=0; j<n; j++) {
+            for (int j = 0; j < n; j++) {
                 board[i][j] = Integer.parseInt(st.nextToken());
                 if (board[i][j] == 2) {
                     startIdx[0] = i;
@@ -42,33 +41,28 @@ public class Main {
         int[] dx = {0, 0, -1, 1};
         int[] dy = {-1, 1, 0, 0};
 
-        for (int i=0; i<m; i++) {
-            for (int j=0; j<n; j++) {
-                while (!queue.isEmpty()) {
-                    Node node = queue.remove();
+        while (!queue.isEmpty()) {
+            Node node = queue.remove();
 
-                    for (int d=0; d<4; d++) {
-                        int tempX = node.x + dx[d];
-                        int tempY = node.y + dy[d];
+            for (int d = 0; d < 4; d++) {
+                int tempX = node.x + dx[d];
+                int tempY = node.y + dy[d];
 
-                        if (tempX<0 || tempY<0 || tempX>=m || tempY>=n) {
-                            continue;
-                        }
+                if (tempX < 0 || tempY < 0 || tempX >= m || tempY >= n) {
+                    continue;
+                }
 
-                        if (board[tempX][tempY] == 1 && !visited[tempX][tempY]) {
-                            int increaseCount = node.count+1;
-                            queue.add(new Node(tempX, tempY, increaseCount));
-                            result[tempX][tempY] = increaseCount;
-                            visited[tempX][tempY] = true;
-                        }
-                    }
-
+                if (board[tempX][tempY] == 1 && !visited[tempX][tempY]) {
+                    int increaseCount = node.count + 1;
+                    queue.add(new Node(tempX, tempY, increaseCount));
+                    result[tempX][tempY] = increaseCount;
+                    visited[tempX][tempY] = true;
                 }
             }
         }
 
-        for (int i=0; i<m; i++) {
-            for (int j=0; j<n; j++) {
+        for (int i = 0; i < m; i++) {
+            for (int j = 0; j < n; j++) {
                 if (result[i][j] == 0 && !visited[i][j]) {
                     bw.write(-1 + " ");
                 } else {
@@ -83,7 +77,7 @@ public class Main {
     }
 }
 
-class Node{
+class Node {
     int x;
     int y;
     int count;
